@@ -1,42 +1,22 @@
 #!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
-source /assets/functions/00-container
+source /container/base/functions/container/init
 prepare_service
 prepare_service 03-monitoring
-PROCESS_NAME="loki"
-
-cat <<EOF
-
-*************************************************************************************************
-*                                                                                               *
-*                    END OF LIFE NOTICE OCTOBER 09, 2025                                        *
-*                               tiredofit/loki                                                  *
-*                                                                                               *
-* This image is no longer maintained as of and will not receive updates.                        *
-*                                                                                               *
-* A successor image is available at:                                                            *
-*                                                                                               *
-* Repository | Documentation:                                                                   *
-*   - https://github.com/nfrastack/container-loki                                               *
-*                                                                                               *
-* Image Registries:                                                                             *
-*   - https://hub.docker.com/r/nfrastack/loki                                                   *
-*   - https://github.com/nfrastack/container-moodle/pkgs/container/container-loki               *
-*                                                                                               *
-* Please visit https://nfrastack.com for more information.                                      *
-*                                                                                               *
-*************************************************************************************************
-
-EOF
-
-sleep 15
+SERVICE_NAME="loki"
 
 create_zabbix loki
 
-mkdir -p "${CONFIG_PATH}"
-    mkdir -p "${STORAGE_BOLTDB_PATH}"
-    mkdir -p "${STORAGE_BOLTDB_SHIPPER_ACTIVEINDEX_PATH}"
-    mkdir -p "${STORAGE_BOLTDB_SHIPPER_CACHE_PATH}"
+create_filesystem \
+                    "${CONFIG_PATH},\
+                     ${LOG_PATH},\
+                     ${STORAGE_BOLTDB_PATH},\
+                     ${STORAGE_BOLTDB_SHIPPER_ACTIVEINDEX_PATH},\
+                     ${STORAGE_BOLTDB_SHIPPER_CACHE_PATH}" \
+                    "${LOKI_USER}":"${LOKI_GROUP}" 755
 
 case "${STORAGE_BOLTDB_SHIPPER_SHARED_STORE,,}" in
   "filesystem" )
@@ -50,7 +30,7 @@ esac
 
 case "${STORAGE_COMPACTOR_SHARED_STORE,,}" in
   "filesystem" )
-    mkdir -p "${STORAGE_COMPACTOR_PATH}"
+    create file_system "${STORAGE_COMPACTOR_PATH}" "${LOKI_USER}":"${LOKI_GROUP}" 755
     storage_compactor_shared_store="filesystem"
     generate_storage_filesystem=true
   ;;
@@ -61,7 +41,7 @@ esac
 
 case "${STORAGE_SCHEMA_OBJECT_STORE,,}" in
   "filesystem" )
-    mkdir -p "${STORAGE_FILESYSTEM_PATH}"
+    create file_system "${STORAGE_FILESYSTEM_PATH}" "${LOKI_USER}":"${LOKI_GROUP}" 755
     storage_object_shared_store="filesystem"
     generate_storage_filesystem=true
   ;;
@@ -103,13 +83,9 @@ EOF
                 )
 fi
 
-touch "${CONFIG_PATH}"/"${CONFIG_FILE}"
-
-update_template /etc/nginx/sites.available/${NGINX_SITE_ENABLED}.conf LISTEN_PORT
-
 if [ "${SETUP_TYPE,,}" = "auto" ] ; then
     print_debug "Configuring Loki"
-    cat <<EOF > "${CONFIG_PATH}"/"${CONFIG_FILE}"
+    cat <<EOF | silent sudo -u "${LOKI_USER}" tee "${CONFIG_PATH%/}"/"${CONFIG_FILE}"
 # Generated on $(TZ=${TIMEZONE} date +'%Y-%m-%d %H:%M:%S %Z')
 
 auth_enabled: ${ENABLE_AUTH,,}
@@ -174,7 +150,7 @@ chunk_store_config:
 
 EOF
     else
-        print_info "Not auto configuring loki"
+        print_info "Not auto configuring Loki"
     fi
 
 liftoff

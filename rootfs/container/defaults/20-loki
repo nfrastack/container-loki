@@ -1,4 +1,6 @@
-#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
 
 STORAGE_COMPACTOR_SHARED_STORE=${STORAGE_COMPACTOR_SHARED_STORE:-"filesystem"}
 CONFIG_FILE=${CONFIG_FILE:-"loki.yml"}
@@ -23,6 +25,8 @@ LISTEN_PORT=${LISTEN_PORT:-"3100"}
 LOG_FILE=${LOG_FILE:-"loki.log"}
 LOG_LEVEL=${LOG_LEVEL:-"info"}
 LOG_PATH=${LOG_PATH:-"/logs/"}
+LOKI_USER=${LOKI_USER:-"root"}
+LOKI_GROUP=${LOKI_GROUP:-"root"}
 SCHEMA_INDEX_PERIOD=${SCHEMA_INDEX_PERIOD:-"24h"}
 SCHEMA_INDEX_PREFIX=${SCHEMA_INDEX_PREFIX:-"index_"}
 STORAGE_SCHEMA_OBJECT_STORE=${STORAGE_SCHEMA_OBJECT_STORE:-"filesystem"}

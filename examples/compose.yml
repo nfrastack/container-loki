@@ -1,0 +1,25 @@
+
+services:
+  loki-app:
+    image: tiredofit/loki
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.loki.rule=Host(`loki.example.com`)
+      - traefik.http.services.loki.loadbalancer.server.port=80
+    container_name: loki-app
+    volumes:
+      - ./config:/config
+      - ./data:/data
+      - ./logs:/logs
+    environment:
+      - TIMEZONE=America/Vancouver
+    networks:
+      - proxy
+      - services
+    restart: always
+
+networks:
+  services:
+    external: true
+  proxy:
+    external: true

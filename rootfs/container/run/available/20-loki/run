@@ -1,0 +1,16 @@
+#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
+
+source /container/base/functions/container/init
+SERVICE_NAME="loki"
+prepare_service defaults
+
+check_container_initialized
+check_service_initialized init
+liftoff
+
+print_start "Starting $(grep -o "ADD: Loki .* |" /container/build/${IMAGE_NAME/\//_}/build.log | awk '{print $3}')"
+exec s6-setuidgid ${LOKI_USER} loki \
+                                    -config.file "${CONFIG_PATH%/}"/"${CONFIG_FILE}"
