@@ -5,6 +5,32 @@ prepare_service
 prepare_service 03-monitoring
 PROCESS_NAME="loki"
 
+cat <<EOF
+
+*************************************************************************************************
+*                                                                                               *
+*                    END OF LIFE NOTICE OCTOBER 09, 2025                                        *
+*                               tiredofit/loki                                                  *
+*                                                                                               *
+* This image is no longer maintained as of and will not receive updates.                        *
+*                                                                                               *
+* A successor image is available at:                                                            *
+*                                                                                               *
+* Repository | Documentation:                                                                   *
+*   - https://github.com/nfrastack/container-loki                                               *
+*                                                                                               *
+* Image Registries:                                                                             *
+*   - https://hub.docker.com/r/nfrastack/loki                                                   *
+*   - https://github.com/nfrastack/container-moodle/pkgs/container/container-loki               *
+*                                                                                               *
+* Please visit https://nfrastack.com for more information.                                      *
+*                                                                                               *
+*************************************************************************************************
+
+EOF
+
+sleep 15
+
 create_zabbix loki
 
 mkdir -p "${CONFIG_PATH}"
