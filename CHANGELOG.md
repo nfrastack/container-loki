@@ -1,8 +1,8 @@
-## 0.1.00pre 2025-10-09 <code at nfrastack dot com>
+## 0.1.0pre 2025-10-09 <code at nfrastack dot com>
 
    ### Changed
       - Switch container base to nfrastack/nginx
-      - Loki 3.5.5
+      - Loki 3.5.6
 
 
 ## 0.0.99 2025-10-09 <dave at tiredofit dot ca>
