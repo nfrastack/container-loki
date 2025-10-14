@@ -2,7 +2,7 @@
 
    ### Changed
       - Switch container base to nfrastack/nginx
-      - Loki 3.5.6
+      - Loki 3.5.7
 
 
 ## 0.0.99 2025-10-09 <dave at tiredofit dot ca>
