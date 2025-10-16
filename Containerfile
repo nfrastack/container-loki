@@ -37,7 +37,6 @@ ENV \
 RUN echo "" && \
     LOKI_BUILD_DEPS_ALPINE=" \
                                 git \
-                                go \
                            " \
                            && \
     source /container/base/functions/container/build && \
@@ -48,6 +47,7 @@ RUN echo "" && \
                         LOKI_BUILD_DEPS \
                     && \
     \
+    package build go && \
     clone_git_repo "${LOKI_REPO_URL}" ${LOKI_VERSION} && \
     go build -ldflags='-s -w' -o /usr/local/bin/logcli ./cmd/logcli  && \
     go build -ldflags='-s -w' -o /usr/local/bin/loki ./cmd/loki  && \
