@@ -5,7 +5,6 @@
 
 source /container/base/functions/container/init
 prepare_service
-prepare_service 03-monitoring
 SERVICE_NAME="loki"
 
 create_zabbix loki
