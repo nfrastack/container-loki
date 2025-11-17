@@ -18,7 +18,7 @@ LABEL \
         org.opencontainers.image.licenses="MIT"
 
 ARG \
-    LOKI_VERSION="v3.5.8" \
+    LOKI_VERSION="v3.6.0" \
     LOKI_REPO_URL="https://github.com/grafana/loki"
 
 COPY CHANGELOG.md /usr/src/container/CHANGELOG.md
@@ -49,10 +49,11 @@ RUN echo "" && \
     \
     package build go && \
     clone_git_repo "${LOKI_REPO_URL}" ${LOKI_VERSION} && \
-    go build -ldflags='-s -w' -o /usr/local/bin/logcli ./cmd/logcli  && \
-    go build -ldflags='-s -w' -o /usr/local/bin/loki ./cmd/loki  && \
-    go build -ldflags='-s -w' -o /usr/local/bin/loki-canary ./cmd/loki-canary  && \
+    for package in logcli loki loki-canary ; do \
+        go build -ldflags='-s -w' -o /usr/local/bin/${package} ./cmd/${package}; \
+    done ; \
     \
+    container_build_log add "Loki" "${LOKI_VERSION}" "${LOKI_REPO_URL}" && \
     package remove \
                     LOKI_BUILD_DEPS \
                     && \
