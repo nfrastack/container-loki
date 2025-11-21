@@ -18,7 +18,7 @@ LABEL \
         org.opencontainers.image.licenses="MIT"
 
 ARG \
-    LOKI_VERSION="v3.6.0" \
+    LOKI_VERSION="v3.6.1" \
     LOKI_REPO_URL="https://github.com/grafana/loki"
 
 COPY CHANGELOG.md /usr/src/container/CHANGELOG.md
