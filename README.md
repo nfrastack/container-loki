@@ -1,4 +1,4 @@
-# nfrastack/container-replace
+# nfrastack/container-loki
 
 ## About
 
@@ -30,15 +30,15 @@ This repository will build a container for [Loki](https://grafana.com/oss/loki/)
 ## Installation
 
 ### Prebuilt Images
-Feature limited builds of the image are available on the [Github Container Registry](https://github.com/nfrastack/container-replace/pkgs/container/container-replace) and [Docker Hub](https://hub.docker.com/r/nfrastack/replace).
+Feature limited builds of the image are available on the [Github Container Registry](https://github.com/nfrastack/container-loki/pkgs/container/container-loki) and [Docker Hub](https://hub.docker.com/r/nfrastack/loki).
 
 To unlock advanced features, one must provide a code to be able to change specific environment variables from defaults. Support the development to gain access to a code.
 
 To get access to the image use your container orchestrator to pull from the following locations:
 
 ```
-ghcr.io/nfrastack/container-replace:(image_tag)
-docker.io/nfrastack/replace:(image_tag)
+ghcr.io/nfrastack/container-loki:(image_tag)
+docker.io/nfrastack/loki:(image_tag)
 ```
 
 Image tag syntax is:
@@ -47,13 +47,13 @@ Image tag syntax is:
 
 Example:
 
-`ghcr.io/nfrastack/container-replace:latest` or
+`ghcr.io/nfrastack/container-loki:latest` or
 
-`ghcr.io/nfrastack/container-replace:1.0` or optionally
+`ghcr.io/nfrastack/container-loki:1.0` or optionally
 
-`ghcr.io/nfrastack/container-replace:1.0-alpine` or optinally
+`ghcr.io/nfrastack/container-loki:1.0-alpine` or optinally
 
-`ghcr.io/nfrastack/container-replace:alpine`
+`ghcr.io/nfrastack/container-loki:alpine`
 
 * `latest` will be the most recent commit
 * An optional `tag` may exist that matches the [CHANGELOG](CHANGELOG.md) - These are the safest
@@ -73,12 +73,6 @@ Images are built for `amd64` by default, with optional support for `arm64` and o
 * Map [persistent storage](#persistent-storage) for access to configuration and data files for backup.
 * Set various [environment variables](#environment-variables) to understand the capabilities of this image.
 
-There are a huge amount of configuration variables and it is recommended that you get comfortable for a few hours with the [loki::NG Documentation](https://loki-ng.org/documentation/3.0/start)
-
-You will eventually based on your usage case switch over to `SETUP_TYPE=MANUAL` and edit your own `loki-ng.ini`. While I've tried to make this as easy to use as possible, once in production you'll find much better success with large implementations with this approach.
-
-By Default this image is ready to run out of the box, without having to alter any of the settings with the exception of the `_HOSTNAME` vars. You can also change the majority of these settings from within the Manager. There are instances where these variables would want to be set if you are running multiple handlers or need to enforce a Global Setting for one specific installation.
-
 ### Persistent Storage
 
 The following directories are used for configuration and can be mapped for persistent storage.
@@ -93,9 +87,10 @@ The following directories are used for configuration and can be mapped for persi
 This image relies on a customized base image in order to work.
 Be sure to view the following repositories to understand all the customizable options:
 
-| Image                                                   | Description |
-| ------------------------------------------------------- | ----------- |
-| [OS Base](https://github.com/nfrastack/container-base/) | Base Image  |
+| Image                                                   | Description     |
+| ------------------------------------------------------- | --------------- |
+| [OS Base](https://github.com/nfrastack/container-base/) | Base Image      |
+| [Nginx](https://github.com/nfrastack/container-nginx/)  | Webserver Image |
 
 Below is the complete list of available options that can be used to customize your installation.
 
@@ -105,7 +100,6 @@ Below is the complete list of available options that can be used to customize yo
 
 | Parameter    | Description                    | Default | Advanced |
 | ------------ | ------------------------------ | ------- | -------- |
-| -------      | ---------                      |
 | `SETUP_TYPE` | `AUTO` to auto generate config | `AUTO`  |          |
 
 * * *

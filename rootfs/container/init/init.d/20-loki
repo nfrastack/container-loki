@@ -1,5 +1,5 @@
 #!/command/with-contenv bash
-# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+# SPDX-FileCopyrightText: © 2026 Nfrastack <code@nfrastack.com>
 #
 # SPDX-License-Identifier: MIT
 
@@ -80,6 +80,10 @@ if var_true "${generate_storage_s3}" ; then
     s3forcepathstyle: ${STORAGE_S3_FORCE_PATH_STYLE,,}
 EOF
                 )
+fi
+
+if var_true "${ENABLE_NGINX}" ; then
+    update_template /container/data/nginx/sites.available/loki/server-pre/15-loki-upstream.conf LISTEN_PORT
 fi
 
 if [ "${SETUP_TYPE,,}" = "auto" ] ; then

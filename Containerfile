@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+# SPDX-FileCopyrightText: © 2026 Nfrastack <code@nfrastack.com>
 #
 # SPDX-License-Identifier: MIT
 
@@ -26,15 +26,17 @@ COPY LICENSE /usr/src/container/LICENSE
 COPY README.md /usr/src/container/README.md
 
 ENV \
-    NGINX_SITE_ENABLED=loki \
-    NGINX_CLIENT_BODY_BUFFER_SIZE=2M \
-    NGINX_ENABLE_CREATE_SAMPLE_HTML=FALSE \
-    NGINX_WORKER_PROCESSES=1 \
-    CONTAINER_ENABLE_SCHEDULING=TRUE \
     IMAGE_NAME="nfrastack/loki" \
     IMAGE_REPO_URL="https://github.com/nfrastack/container-loki/"
 
 RUN echo "" && \
+    BUILD_ENV=" \
+                ENABLE_NGINX=FALSE \
+                NGINX_SITE_ENABLED=loki \
+                NGINX_CLIENT_BODY_BUFFER_SIZE=2M \
+                NGINX_ENABLE_CREATE_SAMPLE_HTML=FALSE \
+              " \
+              && \
     LOKI_BUILD_DEPS_ALPINE=" \
                                 git \
                            " \
