@@ -1,7 +1,7 @@
 
 services:
   loki-app:
-    image: tiredofit/loki
+    image: docker.io/nfrastack/loki
     labels:
       - traefik.enable=true
       - traefik.http.routers.loki.rule=Host(`loki.example.com`)

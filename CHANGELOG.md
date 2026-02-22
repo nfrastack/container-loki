@@ -1,7 +1,8 @@
 ## 0.1.0pre 2025-10-09 <code at nfrastack dot com>
 
    ### Changed
-      - Switch container base to nfrastack/nginx
+      - Switch container base to nfrastack/nginx:8.x
+      - Alpine 3.23
       - Loki 3.6.5
 
 
