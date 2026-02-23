@@ -18,7 +18,7 @@ LABEL \
         org.opencontainers.image.licenses="MIT"
 
 ARG \
-    LOKI_VERSION="v3.6.5" \
+    LOKI_VERSION="v3.6.7" \
     LOKI_REPO_URL="https://github.com/grafana/loki"
 
 COPY CHANGELOG.md /usr/src/container/CHANGELOG.md
@@ -31,10 +31,9 @@ ENV \
 
 RUN echo "" && \
     BUILD_ENV=" \
-                ENABLE_NGINX=FALSE \
-                NGINX_SITE_ENABLED=loki \
-                NGINX_CLIENT_BODY_BUFFER_SIZE=2M \
-                NGINX_ENABLE_CREATE_SAMPLE_HTML=FALSE \
+                10-nginx/ENABLE_NGINX=FALSE \
+                10-nginx/NGINX_SITE_ENABLED=loki \
+                10-nginx/NGINX_ENABLE_CREATE_SAMPLE_HTML=FALSE \
               " \
               && \
     LOKI_BUILD_DEPS_ALPINE=" \
@@ -56,6 +55,7 @@ RUN echo "" && \
     done ; \
     \
     container_build_log add "Loki" "${LOKI_VERSION}" "${LOKI_REPO_URL}" && \
+    sed -i "s|{{NGINX_CLIENT_BODY_BUFFER_SIZE}}|2M|g" /container/data/nginx/templates/server/http-client.template
     package remove \
                     LOKI_BUILD_DEPS \
                     && \
