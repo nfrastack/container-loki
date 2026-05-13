@@ -55,7 +55,7 @@ RUN echo "" && \
     done ; \
     \
     container_build_log add "Loki" "${LOKI_VERSION}" "${LOKI_REPO_URL}" && \
-    sed -i "s|{{NGINX_CLIENT_BODY_BUFFER_SIZE}}|2M|g" /container/data/nginx/templates/server/http-client.template
+    sed -i "s|{{NGINX_CLIENT_BODY_BUFFER_SIZE}}|2M|g" /container/data/nginx/templates/server/http-client.template && \
     package remove \
                     LOKI_BUILD_DEPS \
                     && \
