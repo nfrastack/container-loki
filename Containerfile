@@ -48,7 +48,7 @@ RUN echo "" && \
                         LOKI_BUILD_DEPS \
                     && \
     \
-    package build go && \
+    package build go buildtime && \
     clone_git_repo "${LOKI_REPO_URL}" ${LOKI_VERSION} && \
     for package in logcli loki loki-canary ; do \
         go build -ldflags='-s -w' -o /usr/local/bin/${package} ./cmd/${package}; \
