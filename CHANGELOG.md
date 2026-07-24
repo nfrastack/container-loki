@@ -2,8 +2,8 @@
 
    ### Changed
       - Switch container base to nfrastack/nginx:8.x
-      - Alpine 3.23
-      - Loki 3.7.2
+      - Alpine 3.24
+      - Loki 3.7.4
 
 
 ## 0.0.99 2025-10-09 <dave at tiredofit dot ca>
